@@ -53,7 +53,4 @@ The latest Kue build is failing, so I had to use version 0.11.0 instead of
 0.11.1.
 
 # To-Do
-If this were a larger application with more than one job, I would have 
-abstracted the queue and job initialization. Lines 32-44 of 
-`./workers/queues/url_saver.js` would be the same for any other queue instance, 
-and should therefore be abstracted.
+Write tests.
