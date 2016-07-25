@@ -1,9 +1,7 @@
 var request 				= require('request');
 var SavedUrlContent = require('../../models/saved_url_content');
 
-const stuckJobWatchInterval = 2000, jobsConcurrentlyProcessed = 10;
-
-exports = module.exports = {};
+const jobsConcurrentlyProcessed = 10;
 
 // This is the callback that actually performs each queued URL save job
 function saveUrl(job, done) {
@@ -28,22 +26,8 @@ function saveUrl(job, done) {
   );
 };
 
-exports.init = function(kue) {
-  var urlSaverQueue = kue.createQueue();
-
-  urlSaverQueue.watchStuckJobs(stuckJobWatchInterval);
-
-  urlSaverQueue.on('ready', function() {  
-    console.info('URL saver queue is ready!');
-  });
-
-  urlSaverQueue.on('error', function(err) {  
-    console.error('There was an error in the URL saver queue.');
-    console.error(err);
-    console.error(err.stack);
-  });
-
-  urlSaverQueue.process('save url', jobsConcurrentlyProcessed, function(job, done) {
+module.exports = function(queue) {
+  queue.process('save url', jobsConcurrentlyProcessed, function(job, done) {
     saveUrl(job, done);
   });
 };

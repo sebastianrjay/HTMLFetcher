@@ -1,14 +1,12 @@
-var kue			 = require('kue');
-var logger 	 = require('morgan');
-var mongoose = require('mongoose');
-var workers  = require('./workers');
+var kue			 	= require('kue');
+var logger 	 	= require('morgan');
+var mongoose 	= require('mongoose');
+var queues  	= require('./queues');
 
-// Ensure all queues are defined on same kue instance. (kue should be a 
-// singleton instance cached across all calls to require('kue'), but it doesn't 
-// hurt to be cautious.)
-workers.init(kue);
+// Instantiate all queues here by calling constructor exported by ./queues/index
+new queues();
 
-// connect to Mongoose
+// Connect to MongoDB via Mongoose
 var uriString = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL || 'mongodb://localhost/web_crawler';
 
