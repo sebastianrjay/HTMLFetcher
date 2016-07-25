@@ -17,7 +17,7 @@ function saveUrl(job, done) {
         function(err, savedUrlContent) {
           if(err) return done(err);
 
-          job.log(job.data.url + ' HTML content successfully saved');
+          job.log(job.data.url + ' HTML content successfully fetched and saved');
 
           done(savedUrlContent);
         }
