@@ -4,14 +4,16 @@ This repository contains Sebastian Jay's Massdrop coding challenge submission.
 # Description
 This is a Node.js worker queue application that retrieves a website's URL content and saves it to the DB. It relies heavily on [Kue](https://github.com/Automattic/kue), a feature-rich worker queue library for Node.js.
 
-# Directions
+# Setup Directions
 1. Assuming MongoDB and its driver are [installed](https://docs.mongodb.com/manual/installation/), run `mongod` in a terminal tab or window to start the MongoDB driver.
 2. Assuming [Redis is installed](http://redis.io/topics/quickstart), run `redis-server` in another terminal tab or window.
 3. Open a new terminal tab or window and navigate to the root directory of this 
 project. Run `npm install` to install this app's required npm packages.
 4. Once `npm install` runs successfully, start the local Node server by running 
 `npm start`.
-5. In a fourth terminal window/tab, make a CURL POST request to `localhost:3000/job` to create a new job. **In this app, only one type of job can be created. It is called 'save url'. Its only required parameter is the URL you wish to fetch.** Example:
+
+# REST API
+In a fourth terminal window/tab (after completing setup described above), make a CURL POST request to `localhost:3000/job` to create a new job. **In this app, only one type of job can be created. It is called 'save url'. Its only required parameter is the URL you wish to fetch.** Example:
 
 ```bash
 curl -H "Content-Type: application/json" -X POST -d \

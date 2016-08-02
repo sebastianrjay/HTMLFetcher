@@ -7,6 +7,7 @@
     "test": "mocha spec/*"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "kue": "^0.11.0",
     "mongoose": "^4.5.6",
     "morgan": "^1.7.0",

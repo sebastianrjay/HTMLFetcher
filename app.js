@@ -1,24 +1,39 @@
-var kue			 	= require('kue');
-var logger 	 	= require('morgan');
-var mongoose 	= require('mongoose');
-var queues  	= require('./queues');
+const apiRoutes = require('./api/routes');
+const bodyParser = require('body-parser');
+const express = require('express');
+const kue = require('kue');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const Queues = require('./queues');
 
-// Instantiate all queues here by calling the constructor exported by 
+const app = express();
+
+// Instantiate all worker queues here by calling the class method exported by 
 // ./queues/index.js. Like other npm packages, kue is cached across the app, so 
 // there's no need to pass in the singleton kue instance here.
-new queues();
+Queues.build();
 
 // Connect to MongoDB via Mongoose
-var uriString = process.env.MONGOLAB_URI ||
+const dbUriString = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL || 'mongodb://localhost/html_fetcher';
 
-mongoose.connect(uriString, function (err, res) {
-  if (err) console.log ('ERROR connecting to: ' + uriString + '. ' + err);
-  else console.log ('SUCCESS connecting to: ' + uriString);
+mongoose.connect(dbUriString, (err, res) => {
+  if (err) console.info ('ERROR connecting to: ' + dbUriString + '. ' + err);
+  else console.info ('SUCCESS connecting to: ' + dbUriString);
 });
 
-// Force kue to log messages from its dependencies (and theoretically itself)
-kue.app.use(logger('combined'));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-// Expose Kue's Express-backed UI and REST API app to ./bin/www start script
-module.exports = kue.app;
+app.use('/api', apiRoutes);
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+
+module.exports = app;
