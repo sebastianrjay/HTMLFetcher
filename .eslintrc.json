@@ -1,0 +1,22 @@
+{
+  "extends": ["airbnb"],
+  "globals": {
+    "$": true
+  },
+  "rules": {
+  	"comma-dangle": "off",
+  	"consistent-return": "off",
+  	"indent": "off",
+    "max-len": 1,
+    "new-cap": "off",
+    "no-console": [2, { "allow": ["info", "warn", "error"] }],
+    "no-underscore-dangle": 0,
+    "no-unused-vars": [
+      2,
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "space-before-function-paren": [1, "always"]
+  }
+}

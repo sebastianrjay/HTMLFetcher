@@ -7,18 +7,18 @@ const jobsConcurrentlyProcessed = 10;
 const saveUrl = (job, done) => {
   request(
     job.data.url,
-    (err, res) => {
-      if(err) return done(err);
+    (reqErr, res) => {
+      if (reqErr) return done(reqErr);
 
       const dbQuery = { url: job.data.url };
       const newData = { html: res.body, jobId: job.id };
 
       // Create new document if none exists with URL; otherwise update document.
-      SavedUrlContent.findOneAndUpdate(dbQuery, newData, { upsert: true }, 
-        (err, savedUrlContent) => {
-          if(err) return done(err);
+      SavedUrlContent.findOneAndUpdate(dbQuery, newData, { upsert: true },
+        (fetchErr, savedUrlContent) => {
+          if (fetchErr) return done(fetchErr);
 
-          job.log(job.data.url + ' HTML content successfully fetched and saved');
+          job.log(`${job.data.url} HTML content successfully fetched and saved`);
 
           done(savedUrlContent);
         }
@@ -28,7 +28,7 @@ const saveUrl = (job, done) => {
 };
 
 class URLSaver {
-  constructor (queue) {
+  static create (queue) {
     queue.process('save url', jobsConcurrentlyProcessed, (job, done) => {
       saveUrl(job, done);
     });

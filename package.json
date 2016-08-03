@@ -1,19 +1,27 @@
 {
-  "name": "URLStorer",
+  "name": "HTMLFetcher",
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "eslint": "eslint ./api/ ./bin/ ./models/ ./queues/ ./spec/",
     "start": "node ./bin/www",
     "test": "mocha spec/*"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "express": "^4.14.0",
     "kue": "^0.11.0",
+    "lodash": "^4.14.1",
     "mongoose": "^4.5.6",
     "morgan": "^1.7.0",
     "request": "^2.74.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0"
+    "chai": "^3.5.0",
+    "eslint": "^3.2.2",
+    "eslint-config-airbnb": "^10.0.0",
+    "eslint-plugin-import": "^1.12.0",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
+    "eslint-plugin-react": "^6.0.0"
   }
 }

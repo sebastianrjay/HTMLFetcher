@@ -6,15 +6,15 @@ const SavedUrlContent = new mongoose.Schema({
 	html: String,
 	jobId: Number
 },
-{ 
-	timestamps: true 
+{
+	timestamps: true
 });
 
 SavedUrlContent.post('remove', (savedUrlContent, next) => {
 	kue.Job.remove(savedUrlContent.jobId, (err) => {
     if (err) return next(err);
 
-    console.info('Removed save url job with id ' + savedUrlContent.jobId);
+    console.info(`Removed save url job with id ${savedUrlContent.jobId}`);
     next();
   });
 });

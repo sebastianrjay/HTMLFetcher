@@ -1,16 +1,8 @@
-const expect 					= require('chai').expect;
-const kue							= require('kue');
-const mongoose 				= require('mongoose');
-const SavedUrlContent = require('../../models/saved_url_content');
-const URLSaver 				= require('../../queues/jobs/url_saver');
-
-// Connect to MongoDB test database via Mongoose
-const dbUriString = 'mongodb://localhost/html_fetcher_test';
-
-mongoose.connect(dbUriString, (err, res) => {
-  if (err) console.info ('ERROR connecting to ' + dbUriString, err);
-  else console.info ('SUCCESS connecting to: ' + dbUriString);
-});
+/* eslint-disable import/no-extraneous-dependencies, no-undef, one-var,
+one-var-declaration-per-line */
+const expect = require('chai').expect;
+const kue	= require('kue');
+const URLSaver = require('../../queues/jobs/url_saver');
 
 let jobs, queue;
 const dummyJob1 = { url: 'https://google.com' };
@@ -22,7 +14,7 @@ describe('URLSaver', () => {
 		queue.testMode.enter();
 		jobs = queue.testMode.jobs;
 
-		new URLSaver(queue);
+		URLSaver.create(queue);
 		queue.createJob('save url', dummyJob1).save();
 		queue.createJob('save url', dummyJob2).priority('high').attempts(3).save();
 	});
@@ -33,7 +25,7 @@ describe('URLSaver', () => {
 		expect(jobs[1].type).to.equal('save url');
 	});
 
-	it("should retain data inputted to queued jobs, for use in callbacks", () => {
+	it('should retain data inputted to queued jobs, for use in callbacks', () => {
 		expect(jobs[0].data.url).to.equal(dummyJob1.url);
 		expect(jobs[1].data.url).to.equal(dummyJob2.url);
 	});

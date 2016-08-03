@@ -15,7 +15,7 @@ Queues.build();
 
 // Connect to MongoDB via Mongoose
 const dbUriString = process.env.MONGOLAB_URI ||
-    process.env.MONGOHQ_URL || 'mongodb://localhost/html_fetcher';
+  process.env.MONGOHQ_URL || 'mongodb://localhost/html_fetcher';
 
 mongoose.connect(dbUriString, (err, res) => {
   if (err) console.info ('ERROR connecting to: ' + dbUriString + '. ' + err);
